@@ -8,9 +8,8 @@ function rc_filters(R, C, n)
   t = [0 : dt : t_max];
   
   %--liczenie napiec w dziedzinie czasu-- 
-  
-  U_in = amps .* cos(freqs .* t);
-  U_sym = U_in ./ sqrt(2);
+
+  U_sym = amps ./ sqrt(2);
   
   Z_R = R;
   Z_C = -j ./ (C .* freqs);
@@ -21,9 +20,9 @@ function rc_filters(R, C, n)
   U_R_sym = R .* I_sym;
   U_C_sym = Z_C .* I_sym;
   
-  U_R = sum(sqrt(2) .* U_R_sym);
-  U_C = sum(sqrt(2) .* U_C_sym);
-  U_in = sum(U_in);
+  U_R = sum(sqrt(2) .* U_R_sym .* cos(freqs .* t + arg(U_R_sym)));
+  U_C = sum(sqrt(2) .* U_C_sym .* cos(freqs .* t + arg(U_C_sym)));
+  U_in = sum(amps .* cos(freqs .* t));
   
   %--liczenie napiec w dziedzinie czestotliwosci
   
